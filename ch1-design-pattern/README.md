@@ -2,8 +2,9 @@
 
 [전체 챕터 목차](../README.md)
 
-Java 예제로 싱글톤, 어댑터, 프록시, 데코레이터, 옵저버, 파사드 패턴의 구조와 동작을 학습합니다.
+Java 예제로 싱글톤, 어댑터, 프록시, 데코레이터, 옵저버, 파사드, 전략 패턴의 구조와 동작을 학습합니다.
 프록시를 활용해 캐싱과 실행 전후 부가 기능을 적용하는 AOP 개념도 살펴봅니다.
+전략 패턴을 마지막으로 이 챕터의 일곱 가지 패턴 예제를 모두 작성했습니다.
 
 ## 개발 환경
 
@@ -23,6 +24,7 @@ ch1-design-pattern/
     ├── DecoratorMain.java       # 모델별 가격을 추가하는 데코레이터 예제
     ├── ObserverMain.java        # 버튼 클릭 이벤트를 전달하는 옵저버 예제
     ├── FacadeMain.java          # 연결과 파일 작업을 묶는 파사드 예제
+    ├── StrategyMain.java        # 문자열 처리 전략을 교체하는 예제
     ├── singleton/
     │   ├── SocketClient.java    # 공유 인스턴스 생성 및 반환
     │   ├── AClazz.java          # 공유 인스턴스를 사용하는 클래스
@@ -51,11 +53,17 @@ ch1-design-pattern/
     ├── observer/
     │   ├── Button.java          # 클릭 이벤트를 발생시키는 객체
     │   └── IButtonListener.java # 이벤트를 전달받는 리스너 인터페이스
-    └── facade/
-        ├── Ftp.java             # 서버 연결과 디렉터리 이동 모사
-        ├── Reader.java          # 파일 읽기 모사
-        ├── Writer.java          # 파일 쓰기 모사
-        └── SftpClient.java      # 하위 객체를 조합한 파사드
+    ├── facade/
+    │   ├── Ftp.java             # 서버 연결과 디렉터리 이동 모사
+    │   ├── Reader.java          # 파일 읽기 모사
+    │   ├── Writer.java          # 파일 쓰기 모사
+    │   └── SftpClient.java      # 하위 객체를 조합한 파사드
+    └── strategy/
+        ├── EncodingStrategy.java # 문자열 처리 전략 인터페이스
+        ├── Encoder.java          # 선택한 전략에 처리를 위임
+        ├── Base64Strategy.java   # Base64 인코딩
+        ├── NormalStrategy.java   # 입력 문자열 그대로 반환
+        └── AppendStrategy.java   # 문자열 앞에 ABCD 추가
 ```
 
 ## 학습 내용
@@ -157,6 +165,25 @@ AOP(관점 지향 프로그래밍)는 시간 측정이나 로깅 같은 공통 �
 
 현재 클래스들은 모든 동작을 콘솔 메시지로 표현합니다. `SftpClient`라는 이름을 사용하지만 실제 FTP·SFTP 통신이나 파일 생성·읽기·쓰기는 수행하지 않으므로 별도의 서버나 `text.tmp` 파일을 준비할 필요가 없습니다.
 
+### 7. 전략 패턴 (Strategy)
+
+알고리즘을 공통 인터페이스의 구현체로 분리하고, 실행 중 사용할 알고리즘을 교체하는 패턴입니다. 이 예제에서는 같은 문자열을 서로 다른 방식으로 처리합니다.
+
+- `EncodingStrategy`는 문자열을 받아 처리 결과를 반환하는 `encode(String text)`를 정의합니다.
+- `Encoder`는 전략을 보관하는 컨텍스트입니다. `setEncodingStrategy()`로 사용할 전략을 설정하고, `getMessage()`에서 해당 전략의 `encode()`로 처리를 위임합니다.
+- `Base64Strategy`, `NormalStrategy`, `AppendStrategy`는 각각 다른 문자열 처리 방식을 구현합니다.
+- `StrategyMain`은 하나의 `Encoder`에서 전략을 순서대로 교체하며 동일한 입력 `hello java`를 처리합니다.
+
+| 전략 | 처리 방식 | `hello java`의 결과 |
+| --- | --- | --- |
+| `Base64Strategy` | 문자열의 바이트를 Base64로 인코딩 | `aGVsbG8gamF2YQ==` |
+| `NormalStrategy` | 입력을 그대로 반환 | `hello java` |
+| `AppendStrategy` | 입력 앞에 `ABCD` 추가 | `ABCDhello java` |
+
+`Encoder`는 구체적인 처리 알고리즘 대신 `EncodingStrategy`에 의존합니다. 새로운 전략도 이 인터페이스를 구현해 전달하면 되므로 `Encoder`의 처리 코드를 수정하지 않고 동작을 바꿀 수 있습니다.
+
+`getMessage()`를 호출하기 전에 전략을 설정해야 합니다. `Base64Strategy`는 `String.getBytes()`로 기본 문자셋의 바이트를 사용하며, Base64는 데이터를 표현하는 인코딩 방식입니다. `AppendStrategy`는 이름과 달리 현재 구현에서 문자열 뒤가 아닌 앞에 `ABCD`를 붙입니다.
+
 ## 실행 방법
 
 ### 터미널
@@ -180,7 +207,8 @@ javac -encoding UTF-8 -d out/design-pattern \
   ch1-design-pattern/src/proxy/aop/*.java \
   ch1-design-pattern/src/decorator/*.java \
   ch1-design-pattern/src/observer/*.java \
-  ch1-design-pattern/src/facade/*.java
+  ch1-design-pattern/src/facade/*.java \
+  ch1-design-pattern/src/strategy/*.java
 ```
 
 싱글톤 예제:
@@ -272,6 +300,18 @@ Reader text.tmp 로 연결 종료 합니다.
 FTP 연결을 종료합니다.
 ```
 
+전략 예제:
+
+```bash
+java -cp out/design-pattern StrategyMain
+```
+
+```text
+aGVsbG8gamF2YQ==
+hello java
+ABCDhello java
+```
+
 컴파일 결과는 Git에서 제외되는 `out/` 디렉터리에 생성됩니다.
 
 ### IntelliJ IDEA
@@ -279,6 +319,6 @@ FTP 연결을 종료합니다.
 1. 저장소 루트 폴더를 프로젝트로 엽니다.
 2. **File → Project Structure → Project SDK**를 JDK 26으로 설정합니다.
 3. `ch1-design-pattern/src`가 소스 루트로 인식되는지 확인합니다. 인식되지 않으면 해당 폴더에서 **Mark Directory as → Sources Root**를 선택합니다.
-4. `SingletonMain`, `AdapterMain`, `ProxyMain`, `DecoratorMain`, `ObserverMain`, `FacadeMain` 중 실행할 클래스의 `main()` 옆 실행 버튼을 누릅니다.
+4. `SingletonMain`, `AdapterMain`, `ProxyMain`, `DecoratorMain`, `ObserverMain`, `FacadeMain`, `StrategyMain` 중 실행할 클래스의 `main()` 옆 실행 버튼을 누릅니다.
 
-여섯 예제는 `static void main()` 형태의 진입점을 사용합니다. 실행 문제가 발생하면 IDE의 프로젝트 SDK와 터미널의 JDK 버전이 위 환경과 일치하는지 확인합니다.
+일곱 예제는 `static void main()` 형태의 진입점을 사용합니다. 실행 문제가 발생하면 IDE의 프로젝트 SDK와 터미널의 JDK 버전이 위 환경과 일치하는지 확인합니다.
