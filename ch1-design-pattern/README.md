@@ -2,7 +2,7 @@
 
 [전체 챕터 목차](../README.md)
 
-Java 예제로 싱글톤, 어댑터, 프록시, 데코레이터 패턴의 구조와 동작을 학습합니다.
+Java 예제로 싱글톤, 어댑터, 프록시, 데코레이터, 옵저버 패턴의 구조와 동작을 학습합니다.
 프록시를 활용해 캐싱과 실행 전후 부가 기능을 적용하는 AOP 개념도 살펴봅니다.
 
 ## 개발 환경
@@ -21,6 +21,7 @@ ch1-design-pattern/
     ├── AdapterMain.java         # 어댑터 패턴 실행 예제
     ├── ProxyMain.java           # 프록시 및 실행 시간 측정 예제
     ├── DecoratorMain.java       # 모델별 가격을 추가하는 데코레이터 예제
+    ├── ObserverMain.java        # 버튼 클릭 이벤트를 전달하는 옵저버 예제
     ├── singleton/
     │   ├── SocketClient.java    # 공유 인스턴스 생성 및 반환
     │   ├── AClazz.java          # 공유 인스턴스를 사용하는 클래스
@@ -39,13 +40,16 @@ ch1-design-pattern/
     │   ├── BrowserProxy.java    # HTML 객체를 캐싱하는 프록시
     │   └── aop/
     │       └── AopBrowser.java  # 실행 전후 콜백과 캐싱 적용
-    └── decorator/
-        ├── ICar.java            # 가격 조회 및 출력 인터페이스
-        ├── Audi.java            # 기본 가격을 가진 자동차
-        ├── AudiDecorator.java  # 자동차를 감싸 모델별 가격 추가
-        ├── A3.java              # 추가 가격 1000
-        ├── A4.java              # 추가 가격 2000
-        └── A5.java              # 추가 가격 3000
+    ├── decorator/
+    │   ├── ICar.java            # 가격 조회 및 출력 인터페이스
+    │   ├── Audi.java            # 기본 가격을 가진 자동차
+    │   ├── AudiDecorator.java  # 자동차를 감싸 모델별 가격 추가
+    │   ├── A3.java              # 추가 가격 1000
+    │   ├── A4.java              # 추가 가격 2000
+    │   └── A5.java              # 추가 가격 3000
+    └── observer/
+        ├── Button.java          # 클릭 이벤트를 발생시키는 객체
+        └── IButtonListener.java # 이벤트를 전달받는 리스너 인터페이스
 ```
 
 ## 학습 내용
@@ -114,6 +118,19 @@ AOP(관점 지향 프로그래밍)는 시간 측정이나 로깅 같은 공통 �
 
 가격은 패턴 설명을 위한 예시 값입니다. 각 데코레이터는 원본 `Audi`의 가격을 변경하지 않으므로 모델별 추가 가격이 서로 누적되지 않습니다. 데코레이터도 `ICar`를 구현하므로 다른 데코레이터를 감싸는 중첩 구성도 가능하지만, 현재 실행 예제는 각 모델을 독립적으로 구성합니다.
 
+### 5. 옵저버 패턴 (Observer)
+
+객체의 상태 변화나 이벤트가 발생하면 등록된 관찰자에게 알려 주는 패턴입니다. 이 예제에서는 버튼 클릭 메시지를 리스너에게 전달합니다.
+
+- `Button`은 이벤트를 발생시키는 주체로, `addListener()`로 전달받은 `IButtonListener`를 보관합니다.
+- `IButtonListener`는 이벤트 문자열을 받는 `clickEvent(String event)`를 정의합니다.
+- `ObserverMain`은 익명 클래스로 리스너를 구현하고, 전달받은 이벤트를 콘솔에 출력하도록 등록합니다.
+- `Button.click(message)`를 호출하면 등록된 리스너의 `clickEvent(message)`가 실행됩니다. 버튼은 리스너의 구체적인 처리 방식 대신 인터페이스에 의존합니다.
+
+실행 흐름은 `리스너 등록 → 버튼 클릭 → 리스너 호출 → 메시지 출력`입니다. `ObserverMain`은 버튼을 네 번 클릭해 각 메시지가 순서대로 전달되는 것을 보여줍니다. GUI 없이 메서드 호출로 클릭 이벤트를 흉내 내는 예제이며, 이벤트 처리는 같은 스레드에서 동기적으로 실행됩니다.
+
+현재 구현은 리스너 한 개를 저장합니다. `addListener()`를 다시 호출하면 기존 리스너가 교체되며, 여러 리스너에게 알리는 기능이나 등록 해제 기능은 구현하지 않았습니다. `click()`은 등록된 리스너를 바로 호출하므로 먼저 `addListener()`로 등록해야 합니다.
+
 ## 실행 방법
 
 ### 터미널
@@ -135,7 +152,8 @@ javac -encoding UTF-8 -d out/design-pattern \
   ch1-design-pattern/src/adapter/*.java \
   ch1-design-pattern/src/proxy/*.java \
   ch1-design-pattern/src/proxy/aop/*.java \
-  ch1-design-pattern/src/decorator/*.java
+  ch1-design-pattern/src/decorator/*.java \
+  ch1-design-pattern/src/observer/*.java
 ```
 
 싱글톤 예제:
@@ -194,6 +212,21 @@ A4 의 가격은 3000원 입니다.
 A5 의 가격은 4000원 입니다.
 ```
 
+옵저버 예제:
+
+```bash
+java -cp out/design-pattern ObserverMain
+```
+
+현재 소스의 메시지 문자열을 그대로 출력합니다.
+
+```text
+메시지 전댤 : click1
+메시지 전댤 : click2
+메시지 전댤 : click3
+메시지 전댤 : click4
+```
+
 컴파일 결과는 Git에서 제외되는 `out/` 디렉터리에 생성됩니다.
 
 ### IntelliJ IDEA
@@ -201,6 +234,6 @@ A5 의 가격은 4000원 입니다.
 1. 저장소 루트 폴더를 프로젝트로 엽니다.
 2. **File → Project Structure → Project SDK**를 JDK 26으로 설정합니다.
 3. `ch1-design-pattern/src`가 소스 루트로 인식되는지 확인합니다. 인식되지 않으면 해당 폴더에서 **Mark Directory as → Sources Root**를 선택합니다.
-4. `SingletonMain`, `AdapterMain`, `ProxyMain`, `DecoratorMain` 중 실행할 클래스의 `main()` 옆 실행 버튼을 누릅니다.
+4. `SingletonMain`, `AdapterMain`, `ProxyMain`, `DecoratorMain`, `ObserverMain` 중 실행할 클래스의 `main()` 옆 실행 버튼을 누릅니다.
 
-네 예제는 `static void main()` 형태의 진입점을 사용합니다. 실행 문제가 발생하면 IDE의 프로젝트 SDK와 터미널의 JDK 버전이 위 환경과 일치하는지 확인합니다.
+다섯 예제는 `static void main()` 형태의 진입점을 사용합니다. 실행 문제가 발생하면 IDE의 프로젝트 SDK와 터미널의 JDK 버전이 위 환경과 일치하는지 확인합니다.
