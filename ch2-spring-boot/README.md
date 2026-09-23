@@ -3,7 +3,7 @@
 [전체 챕터 목차](../README.md)
 
 스프링 부트로 웹 애플리케이션을 만들며 스프링의 기본 개념을 학습하는 챕터입니다.
-현재는 프로젝트를 구성하고, 문자열을 반환하는 첫 번째 GET API를 구현했습니다.
+현재는 프로젝트 구성과 첫 번째 GET API에 이어, GET 요청을 매핑하는 두 가지 방법과 경로 변수 전달을 학습했습니다.
 
 ## 개발 환경
 
@@ -34,7 +34,8 @@ ch2-spring-boot/
     │   ├── java/org/honginsung/hello/
     │   │   ├── HelloApplication.java
     │   │   └── controller/
-    │   │       └── ApiController.java
+    │   │       ├── ApiController.java       # 첫 번째 Hello API
+    │   │       └── GetApiController.java    # GET 매핑과 경로 변수 예제
     │   └── resources/
     │       └── application.properties
     └── test/java/org/honginsung/hello/
@@ -64,9 +65,35 @@ ch2-spring-boot/
 
 컨트롤러 경로와 메서드 경로를 합친 `GET /api/hello` 요청이 `hello()`로 전달되고, 반환한 `hello spring boot` 문자열이 응답 본문이 됩니다.
 
+### 3. GET 요청 매핑
+
+`GetApiController`는 클래스에 `@RequestMapping("/api/get")`을 선언해 공통 경로를 지정합니다.
+
+- `getHello()`는 `@GetMapping(path = "/hello")`로 GET 요청을 처리하고 `get hello`를 반환합니다.
+- `hi()`는 `@RequestMapping(path = "/hi", method = RequestMethod.GET)`으로 GET 요청을 처리하고 `get hi`를 반환합니다.
+
+`@GetMapping`은 GET 요청 매핑을 간결하게 표현하는 방식입니다. `@RequestMapping`을 사용할 때는 이 예제처럼 `method`로 HTTP 메서드를 지정할 수 있습니다.
+
+### 4. 경로 변수 (`@PathVariable`)
+
+`GET /api/get/path-variable/{name}`은 URL 경로의 값을 메서드 인자로 전달하는 예제입니다.
+
+- `@GetMapping("/path-variable/{name}")`의 `{name}`이 값을 받을 위치입니다.
+- `@PathVariable(name = "name") String pathName`은 경로 변수 `name`을 자바 매개변수 `pathName`에 연결합니다. 명시적으로 이름을 지정했으므로 두 이름이 달라도 값을 받을 수 있습니다.
+- 메서드는 전달받은 값을 `PathVariable : 값` 형태로 콘솔에 출력하고, 같은 값을 응답 본문으로 반환합니다.
+
+예를 들어 `/api/get/path-variable/spring`을 요청하면 응답 본문은 `spring`입니다.
+
+## API 목록
+
 | HTTP 메서드 | 경로 | 정상 응답 상태 | 응답 본문 |
 | --- | --- | --- | --- |
 | GET | `/api/hello` | `200 OK` | `hello spring boot` |
+| GET | `/api/get/hello` | `200 OK` | `get hello` |
+| GET | `/api/get/hi` | `200 OK` | `get hi` |
+| GET | `/api/get/path-variable/{name}` | `200 OK` | 경로에 전달한 `name` 값 |
+
+모든 예제는 문자열을 응답 본문으로 반환합니다.
 
 ## 실행 방법
 
@@ -109,6 +136,18 @@ hello spring boot
 ```bash
 ./gradlew bootRun --args='--server.port=8081'
 ```
+
+### GET 요청과 경로 변수 확인
+
+서버를 실행한 상태에서 각 요청을 보내 응답을 확인합니다.
+
+```bash
+curl -i http://localhost:8080/api/get/hello
+curl -i http://localhost:8080/api/get/hi
+curl -i http://localhost:8080/api/get/path-variable/spring
+```
+
+각 응답은 `200 OK`이며 본문은 순서대로 `get hello`, `get hi`, `spring`입니다. 마지막 요청에서는 서버 콘솔에도 `PathVariable : spring`이 출력됩니다.
 
 ### 테스트 및 빌드
 
