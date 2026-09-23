@@ -2,7 +2,7 @@
 
 [전체 챕터 목차](../README.md)
 
-Java 예제로 싱글톤, 어댑터, 프록시, 데코레이터, 옵저버 패턴의 구조와 동작을 학습합니다.
+Java 예제로 싱글톤, 어댑터, 프록시, 데코레이터, 옵저버, 파사드 패턴의 구조와 동작을 학습합니다.
 프록시를 활용해 캐싱과 실행 전후 부가 기능을 적용하는 AOP 개념도 살펴봅니다.
 
 ## 개발 환경
@@ -22,6 +22,7 @@ ch1-design-pattern/
     ├── ProxyMain.java           # 프록시 및 실행 시간 측정 예제
     ├── DecoratorMain.java       # 모델별 가격을 추가하는 데코레이터 예제
     ├── ObserverMain.java        # 버튼 클릭 이벤트를 전달하는 옵저버 예제
+    ├── FacadeMain.java          # 연결과 파일 작업을 묶는 파사드 예제
     ├── singleton/
     │   ├── SocketClient.java    # 공유 인스턴스 생성 및 반환
     │   ├── AClazz.java          # 공유 인스턴스를 사용하는 클래스
@@ -47,9 +48,14 @@ ch1-design-pattern/
     │   ├── A3.java              # 추가 가격 1000
     │   ├── A4.java              # 추가 가격 2000
     │   └── A5.java              # 추가 가격 3000
-    └── observer/
-        ├── Button.java          # 클릭 이벤트를 발생시키는 객체
-        └── IButtonListener.java # 이벤트를 전달받는 리스너 인터페이스
+    ├── observer/
+    │   ├── Button.java          # 클릭 이벤트를 발생시키는 객체
+    │   └── IButtonListener.java # 이벤트를 전달받는 리스너 인터페이스
+    └── facade/
+        ├── Ftp.java             # 서버 연결과 디렉터리 이동 모사
+        ├── Reader.java          # 파일 읽기 모사
+        ├── Writer.java          # 파일 쓰기 모사
+        └── SftpClient.java      # 하위 객체를 조합한 파사드
 ```
 
 ## 학습 내용
@@ -131,6 +137,26 @@ AOP(관점 지향 프로그래밍)는 시간 측정이나 로깅 같은 공통 �
 
 현재 구현은 리스너 한 개를 저장합니다. `addListener()`를 다시 호출하면 기존 리스너가 교체되며, 여러 리스너에게 알리는 기능이나 등록 해제 기능은 구현하지 않았습니다. `click()`은 등록된 리스너를 바로 호출하므로 먼저 `addListener()`로 등록해야 합니다.
 
+### 6. 파사드 패턴 (Facade)
+
+여러 하위 객체를 사용하는 복잡한 절차를 간단한 인터페이스로 제공하는 패턴입니다. 이 예제에서는 서버 연결, 디렉터리 이동, 파일 읽기·쓰기를 `SftpClient`로 묶습니다.
+
+- `Ftp`는 서버 연결, 디렉터리 이동, 연결 종료를 담당합니다.
+- `Reader`와 `Writer`는 각각 파일 연결, 읽기 또는 쓰기, 연결 종료를 담당합니다.
+- `SftpClient`는 세 객체를 보관하고 작업을 위임하는 파사드입니다. 기존 객체를 생성자로 전달받거나, 접속 정보와 파일명으로 내부에서 생성할 수 있습니다.
+- `FacadeMain`은 `SftpClient`를 생성한 뒤 `connect() → write() → read() → disConnect()` 순서로 호출합니다.
+
+| 파사드 메서드 | 내부 호출 순서 |
+| --- | --- |
+| `connect()` | `ftp.connect()` → `ftp.moveDirectory()` → `writer.fileConnect()` → `reader.fileConnect()` |
+| `write()` | `writer.write()` |
+| `read()` | `reader.fileRead()` |
+| `disConnect()` | `writer.fileDisconnect()` → `reader.fileDisconnect()` → `ftp.disConnect()` |
+
+호출하는 쪽은 각 하위 객체의 연결 절차를 직접 나열할 필요 없이 파사드의 메서드로 작업을 수행합니다. `FacadeMain`에는 파사드 적용 전 각 객체를 직접 사용하는 코드도 주석으로 남아 있어 구조를 비교할 수 있습니다.
+
+현재 클래스들은 모든 동작을 콘솔 메시지로 표현합니다. `SftpClient`라는 이름을 사용하지만 실제 FTP·SFTP 통신이나 파일 생성·읽기·쓰기는 수행하지 않으므로 별도의 서버나 `text.tmp` 파일을 준비할 필요가 없습니다.
+
 ## 실행 방법
 
 ### 터미널
@@ -153,7 +179,8 @@ javac -encoding UTF-8 -d out/design-pattern \
   ch1-design-pattern/src/proxy/*.java \
   ch1-design-pattern/src/proxy/aop/*.java \
   ch1-design-pattern/src/decorator/*.java \
-  ch1-design-pattern/src/observer/*.java
+  ch1-design-pattern/src/observer/*.java \
+  ch1-design-pattern/src/facade/*.java
 ```
 
 싱글톤 예제:
@@ -227,6 +254,24 @@ java -cp out/design-pattern ObserverMain
 메시지 전댤 : click4
 ```
 
+파사드 예제:
+
+```bash
+java -cp out/design-pattern FacadeMain
+```
+
+```text
+FTP Host : localhost Port : 22 로 연결 합니다.
+path : /home/etc 로 이동합니다.
+Writer text.tmp 로 연결합니다.
+Reader text.tmp 로 연결합니다.
+Writer text.tmp 로 파일쓰기를 합니다.
+Reader text.tmp 의 내용을 읽어 옵니다.
+Writer text.tmp 로 연결 종료 합니다.
+Reader text.tmp 로 연결 종료 합니다.
+FTP 연결을 종료합니다.
+```
+
 컴파일 결과는 Git에서 제외되는 `out/` 디렉터리에 생성됩니다.
 
 ### IntelliJ IDEA
@@ -234,6 +279,6 @@ java -cp out/design-pattern ObserverMain
 1. 저장소 루트 폴더를 프로젝트로 엽니다.
 2. **File → Project Structure → Project SDK**를 JDK 26으로 설정합니다.
 3. `ch1-design-pattern/src`가 소스 루트로 인식되는지 확인합니다. 인식되지 않으면 해당 폴더에서 **Mark Directory as → Sources Root**를 선택합니다.
-4. `SingletonMain`, `AdapterMain`, `ProxyMain`, `DecoratorMain`, `ObserverMain` 중 실행할 클래스의 `main()` 옆 실행 버튼을 누릅니다.
+4. `SingletonMain`, `AdapterMain`, `ProxyMain`, `DecoratorMain`, `ObserverMain`, `FacadeMain` 중 실행할 클래스의 `main()` 옆 실행 버튼을 누릅니다.
 
-다섯 예제는 `static void main()` 형태의 진입점을 사용합니다. 실행 문제가 발생하면 IDE의 프로젝트 SDK와 터미널의 JDK 버전이 위 환경과 일치하는지 확인합니다.
+여섯 예제는 `static void main()` 형태의 진입점을 사용합니다. 실행 문제가 발생하면 IDE의 프로젝트 SDK와 터미널의 JDK 버전이 위 환경과 일치하는지 확인합니다.
