@@ -28,6 +28,7 @@ ch2-spring-boot/
 ├── settings.gradle              # Gradle 프로젝트 이름
 ├── gradlew / gradlew.bat         # macOS·Linux / Windows 실행 스크립트
 ├── gradle/wrapper/               # Gradle 배포 버전 및 Wrapper
+├── docs/images/                 # API 실행 결과 스크린샷
 └── src/
     ├── main/
     │   ├── java/org/honginsung/hello/
@@ -96,6 +97,10 @@ curl -i http://localhost:8080/api/hello
 ```text
 hello spring boot
 ```
+
+아래는 API 클라이언트에서 `GET /api/hello`를 호출해 상태 코드 `200`과 `hello spring boot` 응답을 확인한 화면입니다.
+
+![GET /api/hello 요청에 대한 상태 코드 200과 hello spring boot 응답](docs/images/hello-api-response.png)
 
 브라우저에서 [Hello API](http://localhost:8080/api/hello)를 열어도 확인할 수 있습니다. 서버 종료는 실행 중인 터미널에서 `Ctrl+C`를 누릅니다.
 
