@@ -2,7 +2,7 @@
 
 [전체 챕터 목차](../README.md)
 
-Java 예제로 싱글톤, 어댑터, 프록시 패턴의 구조와 동작을 학습합니다.
+Java 예제로 싱글톤, 어댑터, 프록시, 데코레이터 패턴의 구조와 동작을 학습합니다.
 프록시를 활용해 캐싱과 실행 전후 부가 기능을 적용하는 AOP 개념도 살펴봅니다.
 
 ## 개발 환경
@@ -20,6 +20,7 @@ ch1-design-pattern/
     ├── SingletonMain.java       # 싱글톤 패턴 실행 예제
     ├── AdapterMain.java         # 어댑터 패턴 실행 예제
     ├── ProxyMain.java           # 프록시 및 실행 시간 측정 예제
+    ├── DecoratorMain.java       # 모델별 가격을 추가하는 데코레이터 예제
     ├── singleton/
     │   ├── SocketClient.java    # 공유 인스턴스 생성 및 반환
     │   ├── AClazz.java          # 공유 인스턴스를 사용하는 클래스
@@ -31,13 +32,20 @@ ch1-design-pattern/
     │   ├── Cleaner.java         # 220V 기기 구현
     │   ├── AirConditioner.java  # 220V 기기 구현
     │   └── SocketAdapter.java   # 두 인터페이스를 연결하는 어댑터
-    └── proxy/
-        ├── IBrowser.java        # 브라우저 공통 인터페이스
-        ├── Html.java            # URL을 보관하는 HTML 예제 객체
-        ├── Browser.java         # 호출마다 HTML 객체 생성
-        ├── BrowserProxy.java    # HTML 객체를 캐싱하는 프록시
-        └── aop/
-            └── AopBrowser.java # 실행 전후 콜백과 캐싱 적용
+    ├── proxy/
+    │   ├── IBrowser.java        # 브라우저 공통 인터페이스
+    │   ├── Html.java            # URL을 보관하는 HTML 예제 객체
+    │   ├── Browser.java         # 호출마다 HTML 객체 생성
+    │   ├── BrowserProxy.java    # HTML 객체를 캐싱하는 프록시
+    │   └── aop/
+    │       └── AopBrowser.java  # 실행 전후 콜백과 캐싱 적용
+    └── decorator/
+        ├── ICar.java            # 가격 조회 및 출력 인터페이스
+        ├── Audi.java            # 기본 가격을 가진 자동차
+        ├── AudiDecorator.java  # 자동차를 감싸 모델별 가격 추가
+        ├── A3.java              # 추가 가격 1000
+        ├── A4.java              # 추가 가격 2000
+        └── A5.java              # 추가 가격 3000
 ```
 
 ## 학습 내용
@@ -86,6 +94,26 @@ AOP(관점 지향 프로그래밍)는 시간 측정이나 로깅 같은 공통 �
 
 `Browser`와 `BrowserProxy`의 반복 호출 예제도 `ProxyMain`에 주석으로 남아 있습니다. 직접 비교하려면 해당 블록의 주석을 해제하고 사용하는 클래스의 import를 추가하면 됩니다.
 
+### 4. 데코레이터 패턴 (Decorator)
+
+기존 객체를 같은 인터페이스의 객체로 감싸서 기능을 덧붙이는 패턴입니다. 이 예제에서는 기본 자동차의 가격에 모델별 추가 가격을 더합니다.
+
+- `ICar`는 가격을 반환하는 `getPrice()`와 가격을 출력하는 `showPrice()`를 정의합니다.
+- `Audi`는 생성자로 받은 기본 가격을 저장합니다.
+- `AudiDecorator`는 `ICar` 객체를 보관하고, `getPrice()`에서 감싼 객체의 가격에 `modelPrice`를 더합니다. `showPrice()`는 모델명과 합산 가격을 출력합니다.
+- `A3`, `A4`, `A5`는 `AudiDecorator`를 상속해 각각 1000, 2000, 3000의 추가 가격을 지정합니다.
+
+`DecoratorMain`은 기본 가격이 1000인 `Audi` 하나를 만들고, 각 모델의 데코레이터로 개별적으로 감쌉니다.
+
+| 객체 | 기본 가격 | 추가 가격 | 최종 가격 |
+| --- | ---: | ---: | ---: |
+| `Audi` | 1000 | 0 | 1000 |
+| `A3` | 1000 | 1000 | 2000 |
+| `A4` | 1000 | 2000 | 3000 |
+| `A5` | 1000 | 3000 | 4000 |
+
+가격은 패턴 설명을 위한 예시 값입니다. 각 데코레이터는 원본 `Audi`의 가격을 변경하지 않으므로 모델별 추가 가격이 서로 누적되지 않습니다. 데코레이터도 `ICar`를 구현하므로 다른 데코레이터를 감싸는 중첩 구성도 가능하지만, 현재 실행 예제는 각 모델을 독립적으로 구성합니다.
+
 ## 실행 방법
 
 ### 터미널
@@ -106,7 +134,8 @@ javac -encoding UTF-8 -d out/design-pattern \
   ch1-design-pattern/src/singleton/*.java \
   ch1-design-pattern/src/adapter/*.java \
   ch1-design-pattern/src/proxy/*.java \
-  ch1-design-pattern/src/proxy/aop/*.java
+  ch1-design-pattern/src/proxy/aop/*.java \
+  ch1-design-pattern/src/decorator/*.java
 ```
 
 싱글톤 예제:
@@ -152,6 +181,19 @@ AopBrowser html use cache : www.google.com
 
 첫 호출에서도 HTML을 저장한 뒤 캐시 사용 메시지를 출력합니다. 두 번째 호출에서는 로딩 메시지와 대기 과정이 생략됩니다.
 
+데코레이터 예제:
+
+```bash
+java -cp out/design-pattern DecoratorMain
+```
+
+```text
+audi 의 가격은 1000원 입니다.
+A3 의 가격은 2000원 입니다.
+A4 의 가격은 3000원 입니다.
+A5 의 가격은 4000원 입니다.
+```
+
 컴파일 결과는 Git에서 제외되는 `out/` 디렉터리에 생성됩니다.
 
 ### IntelliJ IDEA
@@ -159,6 +201,6 @@ AopBrowser html use cache : www.google.com
 1. 저장소 루트 폴더를 프로젝트로 엽니다.
 2. **File → Project Structure → Project SDK**를 JDK 26으로 설정합니다.
 3. `ch1-design-pattern/src`가 소스 루트로 인식되는지 확인합니다. 인식되지 않으면 해당 폴더에서 **Mark Directory as → Sources Root**를 선택합니다.
-4. `SingletonMain`, `AdapterMain`, `ProxyMain` 중 실행할 클래스의 `main()` 옆 실행 버튼을 누릅니다.
+4. `SingletonMain`, `AdapterMain`, `ProxyMain`, `DecoratorMain` 중 실행할 클래스의 `main()` 옆 실행 버튼을 누릅니다.
 
-세 예제는 `static void main()` 형태의 진입점을 사용합니다. 실행 문제가 발생하면 IDE의 프로젝트 SDK와 터미널의 JDK 버전이 위 환경과 일치하는지 확인합니다.
+네 예제는 `static void main()` 형태의 진입점을 사용합니다. 실행 문제가 발생하면 IDE의 프로젝트 SDK와 터미널의 JDK 버전이 위 환경과 일치하는지 확인합니다.

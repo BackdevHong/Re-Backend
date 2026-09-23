@@ -7,7 +7,7 @@ Java로 백엔드 개발의 기초 개념을 학습하고 예제를 정리하는
 
 | 챕터 | 주제 | 학습 내용 |
 | --- | --- | --- |
-| [Chapter 1](ch1-design-pattern/README.md) | 디자인 패턴 | 싱글톤(Singleton), 어댑터(Adapter), 프록시(Proxy)와 AOP 개념 예제 |
+| [Chapter 1](ch1-design-pattern/README.md) | 디자인 패턴 | 싱글톤(Singleton), 어댑터(Adapter), 프록시(Proxy)와 AOP 개념 예제, 데코레이터(Decorator) |
 
 ## 개발 환경
 
