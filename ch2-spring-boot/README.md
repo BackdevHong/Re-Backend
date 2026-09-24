@@ -3,7 +3,7 @@
 [전체 챕터 목차](../README.md)
 
 스프링 학습 주제별 프로젝트를 독립적인 애플리케이션으로 실행하는 Gradle 멀티 모듈 프로젝트입니다.
-GET 요청 예제는 `get-api`에, POST 요청 본문과 JSON 필드 매핑 예제는 `post-api`에 구성했습니다. PUT 요청의 중첩 DTO와 JSON 응답 예제는 `put-api`에, DELETE 경로 변수와 쿼리 파라미터 예제는 `delete-api`에 구성했습니다. 텍스트·JSON·HTML 응답과 상태 코드 처리는 `response-api`에 구성했습니다. ObjectMapper 학습용 기본 실행 구조는 `object-mapper-api`에 준비했습니다. 이후 학습 프로젝트는 같은 위치에 새 모듈로 추가합니다.
+GET 요청 예제는 `get-api`에, POST 요청 본문과 JSON 필드 매핑 예제는 `post-api`에 구성했습니다. PUT 요청의 중첩 DTO와 JSON 응답 예제는 `put-api`에, DELETE 경로 변수와 쿼리 파라미터 예제는 `delete-api`에 구성했습니다. 텍스트·JSON·HTML 응답과 상태 코드 처리는 `response-api`에 구성했습니다. 객체와 JSON의 양방향 변환 테스트는 `object-mapper-api`에 구성했습니다. 이후 학습 프로젝트는 같은 위치에 새 모듈로 추가합니다.
 
 ## 모듈 목차
 
@@ -14,9 +14,9 @@ GET 요청 예제는 `get-api`에, POST 요청 본문과 JSON 필드 매핑 예�
 | [put-api](put-api/README.md) | PUT 요청, 중첩 DTO, snake_case 변환, JSON 응답과 경로 변수 | `org.honginsung.put.PutApplication` |
 | [delete-api](delete-api/README.md) | DELETE 요청, 경로 변수와 쿼리 파라미터 | `org.honginsung.delete.DeleteApplication` |
 | [response-api](response-api/README.md) | 텍스트·JSON·HTML 응답, ResponseEntity, JSON null 필드 제외 | `org.honginsung.response.ResponseApplication` |
-| [object-mapper-api](object-mapper-api/README.md) | ObjectMapper 학습용 기본 실행 구조 (변환 예제 미포함) | `org.honginsung.objectmapper.ObjectMapperApplication` |
+| [object-mapper-api](object-mapper-api/README.md) | ObjectMapper 직렬화·역직렬화, JsonProperty, getter 인식과 변환 테스트 | `org.honginsung.objectmapper.ObjectMapperApplication` |
 
-API 목록과 요청 예시는 [GET API 모듈 README](get-api/README.md), [POST API 모듈 README](post-api/README.md), [PUT API 모듈 README](put-api/README.md), [DELETE API 모듈 README](delete-api/README.md), [Response API 모듈 README](response-api/README.md)에 정리했습니다.
+API 목록과 요청 예시는 [GET API 모듈 README](get-api/README.md), [POST API 모듈 README](post-api/README.md), [PUT API 모듈 README](put-api/README.md), [DELETE API 모듈 README](delete-api/README.md), [Response API 모듈 README](response-api/README.md)에 정리했습니다. 객체 변환과 테스트 실행 방법은 [ObjectMapper 모듈 README](object-mapper-api/README.md)를 참고하세요.
 
 ## 개발 환경
 
@@ -62,9 +62,11 @@ ch2-spring-boot/
 │   ├── build.gradle
 │   └── src/main/                # 컨트롤러, DTO, HTML과 실행 설정
 └── object-mapper-api/
-    ├── README.md                # 기본 모듈 실행 방법
+    ├── README.md                # 객체 변환 학습 내용과 실행 방법
     ├── build.gradle
-    └── src/main/                # 실행 클래스와 설정
+    └── src/
+        ├── main/                # 실행 클래스와 User
+        └── test/                # 직렬화·역직렬화 학습 테스트
 ```
 
 루트 프로젝트는 모듈을 관리하며 실행 가능한 애플리케이션을 만들지 않습니다. 각 모듈은 자체 소스, 설정, 의존성과 빌드 결과를 가집니다.
@@ -105,7 +107,10 @@ cd ch2-spring-boot
 # Response API 서버 실행 (별도 터미널, 8084)
 ./gradlew :response-api:bootRun
 
-# ObjectMapper API 기본 서버 실행 (별도 터미널, 8085)
+# ObjectMapper 변환 예제 테스트
+./gradlew :object-mapper-api:test
+
+# ObjectMapper API 기본 서버 실행 (별도 터미널, 8085; 변환 예제는 위 테스트로 실행)
 ./gradlew :object-mapper-api:bootRun
 ```
 
