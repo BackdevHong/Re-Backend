@@ -32,8 +32,12 @@ Re-Backend/
     ├── build.gradle          # 플러그인 버전과 모듈 공통 설정
     ├── settings.gradle       # 하위 모듈 등록
     ├── gradlew               # Gradle Wrapper 실행 스크립트
-    └── get-api/              # GET API 학습 모듈
+    ├── get-api/              # GET API 학습 모듈
+    │   ├── README.md
+    │   ├── build.gradle
+    │   └── src/              # 애플리케이션 및 테스트
+    └── post-api/             # POST API 기본 모듈
         ├── README.md
         ├── build.gradle
-        └── src/              # 애플리케이션 및 테스트
+        └── src/main/         # 실행 클래스와 설정
 ```
