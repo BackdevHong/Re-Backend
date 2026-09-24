@@ -36,8 +36,12 @@ Re-Backend/
     │   ├── README.md
     │   ├── build.gradle
     │   └── src/              # 애플리케이션 및 테스트
-    └── post-api/             # POST API 학습 모듈
+    ├── post-api/             # POST API 학습 모듈
+    │   ├── README.md
+    │   ├── build.gradle
+    │   └── src/main/         # POST 컨트롤러, DTO, 실행 설정
+    └── put-api/              # PUT API 기본 모듈
         ├── README.md
         ├── build.gradle
-        └── src/main/         # POST 컨트롤러, DTO, 실행 설정
+        └── src/main/         # 실행 클래스와 설정
 ```

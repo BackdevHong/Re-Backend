@@ -1,0 +1,11 @@
+plugins {
+    id 'org.springframework.boot'
+}
+
+description = 'PUT API 학습용 기본 모듈'
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
