@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/Re-Backend.iml" filepath="$PROJECT_DIR$/.idea/Re-Backend.iml" />
       <module fileurl="file://$PROJECT_DIR$/ch1-design-pattern/ch1-design-pattern.iml" filepath="$PROJECT_DIR$/ch1-design-pattern/ch1-design-pattern.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/object-mapper-api/ch2-spring-boot.object-mapper-api.test.iml" filepath="$PROJECT_DIR$/.idea/modules/object-mapper-api/ch2-spring-boot.object-mapper-api.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ch3-ioc-di/ch3-ioc-di.iml" filepath="$PROJECT_DIR$/ch3-ioc-di/ch3-ioc-di.iml" />
     </modules>
   </component>
 </project>
