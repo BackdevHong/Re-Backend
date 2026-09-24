@@ -48,8 +48,12 @@ Re-Backend/
     │   ├── README.md
     │   ├── build.gradle
     │   └── src/main/         # DELETE 컨트롤러와 실행 설정
-    └── response-api/         # HTTP 응답 학습 모듈
+    ├── response-api/         # HTTP 응답 학습 모듈
+    │   ├── README.md
+    │   ├── build.gradle
+    │   └── src/main/         # 컨트롤러, DTO, HTML과 실행 설정
+    └── object-mapper-api/    # ObjectMapper 학습용 기본 모듈
         ├── README.md
         ├── build.gradle
-        └── src/main/         # 컨트롤러, DTO, HTML과 실행 설정
+        └── src/main/         # 실행 클래스와 설정
 ```
