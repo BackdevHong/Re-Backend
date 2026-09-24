@@ -8,7 +8,7 @@ Java로 백엔드 개발의 기초 개념을 학습하고 예제를 정리하는
 | 챕터 | 주제 | 학습 내용 |
 | --- | --- | --- |
 | [Chapter 1](ch1-design-pattern/README.md) | 디자인 패턴 (완료) | 싱글톤(Singleton), 어댑터(Adapter), 프록시(Proxy)와 AOP 개념 예제, 데코레이터(Decorator), 옵저버(Observer), 파사드(Facade), 전략(Strategy) |
-| [Chapter 2](ch2-spring-boot/README.md) | 스프링 부트 (학습 중) | 프로젝트 구성, 애플리케이션 실행, REST 컨트롤러, GET 요청 매핑과 경로 변수 |
+| [Chapter 2](ch2-spring-boot/README.md) | 스프링 부트 (학습 중) | 프로젝트 구성, REST 컨트롤러, GET 요청 매핑, 경로 변수, 쿼리 파라미터와 DTO 바인딩 |
 
 ## 개발 환경
 

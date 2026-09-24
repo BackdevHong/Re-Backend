@@ -3,7 +3,7 @@
 [전체 챕터 목차](../README.md)
 
 스프링 부트로 웹 애플리케이션을 만들며 스프링의 기본 개념을 학습하는 챕터입니다.
-현재는 프로젝트 구성과 첫 번째 GET API에 이어, GET 요청을 매핑하는 두 가지 방법과 경로 변수 전달을 학습했습니다.
+현재는 프로젝트 구성과 GET 요청 매핑, 경로 변수 전달에 이어, 쿼리 파라미터를 Map·개별 인자·DTO로 받는 방법을 학습했습니다.
 
 ## 개발 환경
 
@@ -33,9 +33,11 @@ ch2-spring-boot/
     ├── main/
     │   ├── java/org/honginsung/hello/
     │   │   ├── HelloApplication.java
-    │   │   └── controller/
-    │   │       ├── ApiController.java       # 첫 번째 Hello API
-    │   │       └── GetApiController.java    # GET 매핑과 경로 변수 예제
+    │   │   ├── controller/
+    │   │   │   ├── ApiController.java       # 첫 번째 Hello API
+    │   │   │   └── GetApiController.java    # GET 매핑, 경로 변수, 쿼리 파라미터
+    │   │   └── dto/
+    │   │       └── UserRequest.java         # 이름, 이메일, 나이 요청 데이터
     │   └── resources/
     │       └── application.properties
     └── test/java/org/honginsung/hello/
@@ -84,6 +86,36 @@ ch2-spring-boot/
 
 예를 들어 `/api/get/path-variable/spring`을 요청하면 응답 본문은 `spring`입니다.
 
+### 5. 쿼리 파라미터 (`@RequestParam`)
+
+쿼리 파라미터는 URL의 `?` 뒤에 `이름=값`으로 전달하고, 여러 값은 `&`로 구분합니다. 예를 들어 `?name=hong&age=13`은 `name`과 `age` 두 값을 전달합니다.
+
+`GetApiController`에서는 같은 요청 데이터를 받는 세 가지 방식을 비교합니다.
+
+| 경로 | 받는 방식 | 처리 특징 |
+| --- | --- | --- |
+| `/api/get/query-param` | `@RequestParam Map<String, String>` | 전달된 파라미터를 문자열 Map으로 받아 `키 = 값` 형태로 줄마다 반환 |
+| `/api/get/query-param02` | 개별 `@RequestParam` 인자 | `name`, `email`, `age`를 각각 받고 `age`를 `int`로 변환 |
+| `/api/get/query-param03` | `UserRequest` DTO | 파라미터 이름에 맞는 객체 속성으로 바인딩 |
+
+Map 방식은 파라미터마다 메서드 인자를 선언하지 않아도 됩니다. 개별 인자 방식은 필요한 값과 타입을 메서드 선언에서 확인할 수 있습니다. 현재 `query-param02`의 세 인자는 모두 필수이므로 값이 누락되거나 `age`가 정수로 변환되지 않으면 `400 Bad Request`가 반환됩니다.
+
+### 6. DTO로 요청 데이터 받기
+
+`UserRequest`는 `name`, `email`, `age`를 묶어 전달하는 DTO(Data Transfer Object)입니다.
+
+| 속성 | Java 타입 | 예시 |
+| --- | --- | --- |
+| `name` | `String` | `hong` |
+| `email` | `String` | `hong@example.com` |
+| `age` | `int` | `13` |
+
+`queryParam03(UserRequest userRequest)`에는 `@RequestParam`이 없지만, Spring MVC가 이 객체를 모델 속성으로 처리해 쿼리 파라미터를 바인딩합니다. DTO의 setter로 값을 설정하고 getter로 읽으며, `age`에는 정수 변환이 적용됩니다.
+
+현재 DTO에는 필수값 검증을 선언하지 않았습니다. 파라미터를 생략하면 문자열 속성은 `null`, `age`는 `0`으로 남습니다. `age`에 정수로 변환할 수 없는 값을 전달하면 바인딩 오류로 `400 Bad Request`가 반환됩니다.
+
+메서드는 `userRequest.toString()`을 반환하므로 응답은 `UserRequest{name='hong', email='hong@example.com', age=13}` 형태의 문자열입니다. 쿼리 파라미터를 객체로 받는 예제이며, JSON 요청 본문이나 JSON 응답을 사용하는 구현은 아닙니다.
+
 ## API 목록
 
 | HTTP 메서드 | 경로 | 정상 응답 상태 | 응답 본문 |
@@ -92,6 +124,9 @@ ch2-spring-boot/
 | GET | `/api/get/hello` | `200 OK` | `get hello` |
 | GET | `/api/get/hi` | `200 OK` | `get hi` |
 | GET | `/api/get/path-variable/{name}` | `200 OK` | 경로에 전달한 `name` 값 |
+| GET | `/api/get/query-param` | `200 OK` | 전달한 파라미터를 `키 = 값` 형태로 나열 |
+| GET | `/api/get/query-param02` | `200 OK` | `name email age` 형태의 문자열 |
+| GET | `/api/get/query-param03` | `200 OK` | `UserRequest.toString()` 결과 |
 
 모든 예제는 문자열을 응답 본문으로 반환합니다.
 
@@ -148,6 +183,53 @@ curl -i http://localhost:8080/api/get/path-variable/spring
 ```
 
 각 응답은 `200 OK`이며 본문은 순서대로 `get hello`, `get hi`, `spring`입니다. 마지막 요청에서는 서버 콘솔에도 `PathVariable : spring`이 출력됩니다.
+
+### 쿼리 파라미터 확인
+
+URL에 포함된 `&`가 셸 명령으로 해석되지 않도록 전체 URL을 따옴표로 감쌉니다.
+
+Map으로 받는 요청:
+
+```bash
+curl -i 'http://localhost:8080/api/get/query-param?name=hong&age=13'
+```
+
+응답 본문 예시:
+
+```text
+name = hong
+age = 13
+```
+
+개별 인자로 받는 요청:
+
+```bash
+curl -i 'http://localhost:8080/api/get/query-param02?name=hong&email=hong@example.com&age=13'
+```
+
+```text
+hong hong@example.com 13
+```
+
+DTO로 받는 요청:
+
+```bash
+curl -i 'http://localhost:8080/api/get/query-param03?name=hong&email=hong@example.com&age=13'
+```
+
+```text
+UserRequest{name='hong', email='hong@example.com', age=13}
+```
+
+위 세 요청은 모두 정상 입력에서 `200 OK`를 반환합니다. 다음 요청으로 필수 파라미터 누락과 타입 변환 실패도 확인할 수 있습니다.
+
+```bash
+# email, age 누락: 400 Bad Request
+curl -i 'http://localhost:8080/api/get/query-param02?name=hong'
+
+# DTO의 age 타입 변환 실패: 400 Bad Request
+curl -i 'http://localhost:8080/api/get/query-param03?name=hong&email=hong@example.com&age=abc'
+```
 
 ### 테스트 및 빌드
 
