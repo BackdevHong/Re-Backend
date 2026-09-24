@@ -3,16 +3,16 @@
 [전체 챕터 목차](../README.md)
 
 스프링 학습 주제별 프로젝트를 독립적인 애플리케이션으로 실행하는 Gradle 멀티 모듈 프로젝트입니다.
-GET 요청 예제는 `get-api`에, POST 학습을 위한 기본 실행 구조는 `post-api`에 구성했습니다. 이후 학습 프로젝트는 같은 위치에 새 모듈로 추가합니다.
+GET 요청 예제는 `get-api`에, POST 요청 본문과 JSON 필드 매핑 예제는 `post-api`에 구성했습니다. 이후 학습 프로젝트는 같은 위치에 새 모듈로 추가합니다.
 
 ## 모듈 목차
 
 | 모듈 | 학습 내용 | 실행 클래스 |
 | --- | --- | --- |
 | [get-api](get-api/README.md) | REST 컨트롤러, GET 요청 매핑, 경로 변수, 쿼리 파라미터와 DTO 바인딩 | `org.honginsung.get.GetApplication` |
-| [post-api](post-api/README.md) | 기본 실행 구조 (API 예제 미포함) | `org.honginsung.post.PostApplication` |
+| [post-api](post-api/README.md) | POST 요청 본문, Map·DTO 바인딩, JSON 필드 이름 매핑 | `org.honginsung.post.PostApplication` |
 
-API 목록, 요청·응답 예시와 스크린샷은 [GET API 모듈 README](get-api/README.md)에 정리했습니다.
+API 목록과 요청 예시는 [GET API 모듈 README](get-api/README.md)와 [POST API 모듈 README](post-api/README.md)에 정리했습니다.
 
 ## 개발 환경
 
@@ -42,9 +42,9 @@ ch2-spring-boot/
 │       ├── main/                # 애플리케이션과 설정
 │       └── test/                # 모듈 테스트
 └── post-api/
-    ├── README.md                # 기본 모듈 실행 방법
+    ├── README.md                # POST API 학습 내용과 실행 방법
     ├── build.gradle
-    └── src/main/                # 실행 클래스와 설정
+    └── src/main/                # POST 컨트롤러, DTO, 실행 설정
 ```
 
 루트 프로젝트는 모듈을 관리하며 실행 가능한 애플리케이션을 만들지 않습니다. 각 모듈은 자체 소스, 설정, 의존성과 빌드 결과를 가집니다.
@@ -73,7 +73,7 @@ cd ch2-spring-boot
 # GET API 서버 실행 (8080)
 ./gradlew :get-api:bootRun
 
-# POST API 기본 서버 실행 (별도 터미널, 8081)
+# POST API 서버 실행 (별도 터미널, 8081)
 ./gradlew :post-api:bootRun
 ```
 
