@@ -20,6 +20,9 @@
       <module name="ch2-spring-boot.put-api" options="-parameters" />
       <module name="ch2-spring-boot.put-api.main" options="-parameters" />
       <module name="ch2-spring-boot.put-api.test" options="-parameters" />
+      <module name="ch2-spring-boot.response-api" options="-parameters" />
+      <module name="ch2-spring-boot.response-api.main" options="-parameters" />
+      <module name="ch2-spring-boot.response-api.test" options="-parameters" />
     </option>
   </component>
 </project>
