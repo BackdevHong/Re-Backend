@@ -14,6 +14,9 @@
       <module name="ch2-spring-boot.get-api" options="-parameters" />
       <module name="ch2-spring-boot.get-api.main" options="-parameters" />
       <module name="ch2-spring-boot.get-api.test" options="-parameters" />
+      <module name="ch2-spring-boot.object-mapper-api" options="-parameters" />
+      <module name="ch2-spring-boot.object-mapper-api.main" options="-parameters" />
+      <module name="ch2-spring-boot.object-mapper-api.test" options="-parameters" />
       <module name="ch2-spring-boot.post-api" options="-parameters" />
       <module name="ch2-spring-boot.post-api.main" options="-parameters" />
       <module name="ch2-spring-boot.post-api.test" options="-parameters" />
