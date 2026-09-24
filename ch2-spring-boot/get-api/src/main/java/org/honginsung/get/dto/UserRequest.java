@@ -1,4 +1,4 @@
-package org.honginsung.hello.dto;
+package org.honginsung.get.dto;
 
 
 public class UserRequest {

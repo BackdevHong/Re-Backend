@@ -1,4 +1,4 @@
-package org.honginsung.hello.controller;
+package org.honginsung.get.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

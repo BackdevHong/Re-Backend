@@ -1,6 +1,6 @@
-package org.honginsung.hello.controller;
+package org.honginsung.get.controller;
 
-import org.honginsung.hello.dto.UserRequest;
+import org.honginsung.get.dto.UserRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;

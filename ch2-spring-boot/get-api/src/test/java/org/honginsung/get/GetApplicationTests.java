@@ -1,10 +1,10 @@
-package org.honginsung.hello;
+package org.honginsung.get;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class HelloApplicationTests {
+class GetApplicationTests {
 
     @Test
     void contextLoads() {

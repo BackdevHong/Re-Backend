@@ -1,1 +1,3 @@
 rootProject.name = 'ch2-spring-boot'
+
+include 'get-api'
