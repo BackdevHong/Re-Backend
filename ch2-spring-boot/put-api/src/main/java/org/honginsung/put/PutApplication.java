@@ -5,13 +5,24 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class PutApplication {
-
-    /**
-     * PUT API 학습용 스프링 부트 애플리케이션을 시작한다.
-     *
-     * @param args 애플리케이션 실행 인자
-     */
     public static void main(String[] args) {
         SpringApplication.run(PutApplication.class, args);
     }
 }
+
+/*
+  {
+      "name" : "honginsung",
+      "age" : 22,
+      "car_list" : [
+           {
+               "name" : "BMW",
+               "car_number" : "11가 1234"
+           },
+           {
+               "name" : "AUDI",
+               "car_number" : "22가 0923"
+           }
+      ]
+  }
+ */

@@ -8,7 +8,7 @@ Java로 백엔드 개발의 기초 개념을 학습하고 예제를 정리하는
 | 챕터 | 주제 | 학습 내용 |
 | --- | --- | --- |
 | [Chapter 1](ch1-design-pattern/README.md) | 디자인 패턴 (완료) | 싱글톤(Singleton), 어댑터(Adapter), 프록시(Proxy)와 AOP 개념 예제, 데코레이터(Decorator), 옵저버(Observer), 파사드(Facade), 전략(Strategy) |
-| [Chapter 2](ch2-spring-boot/README.md) | 스프링 부트 (학습 중) | Gradle 멀티 모듈 구성, REST 컨트롤러, GET 요청 매핑, 경로 변수, 쿼리 파라미터와 DTO 바인딩, POST 요청 본문과 JSON 필드 매핑 |
+| [Chapter 2](ch2-spring-boot/README.md) | 스프링 부트 (학습 중) | Gradle 멀티 모듈 구성, REST 컨트롤러, GET 요청 매핑, 경로 변수, 쿼리 파라미터와 DTO 바인딩, POST 요청 본문과 JSON 필드 매핑, PUT 중첩 DTO와 JSON 응답 |
 
 ## 개발 환경
 
@@ -40,7 +40,11 @@ Re-Backend/
     │   ├── README.md
     │   ├── build.gradle
     │   └── src/main/         # POST 컨트롤러, DTO, 실행 설정
-    └── put-api/              # PUT API 기본 모듈
+    ├── put-api/              # PUT API 학습 모듈
+    │   ├── README.md
+    │   ├── build.gradle
+    │   └── src/main/         # PUT 컨트롤러, DTO, 실행 설정
+    └── delete-api/           # DELETE API 기본 모듈
         ├── README.md
         ├── build.gradle
         └── src/main/         # 실행 클래스와 설정
