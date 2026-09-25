@@ -2,12 +2,16 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="aop.main" target="25" />
+      <module name="aop.test" target="25" />
       <module name="ch2-spring-boot.main" target="25" />
       <module name="ch2-spring-boot.test" target="25" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="aop.main" options="-parameters" />
+      <module name="aop.test" options="-parameters" />
       <module name="ch2-spring-boot.delete-api" options="-parameters" />
       <module name="ch2-spring-boot.delete-api.main" options="-parameters" />
       <module name="ch2-spring-boot.delete-api.test" options="-parameters" />
@@ -26,6 +30,9 @@
       <module name="ch2-spring-boot.response-api" options="-parameters" />
       <module name="ch2-spring-boot.response-api.main" options="-parameters" />
       <module name="ch2-spring-boot.response-api.test" options="-parameters" />
+      <module name="ch3-aop" options="-parameters" />
+      <module name="ch3-aop.main" options="-parameters" />
+      <module name="ch3-aop.test" options="-parameters" />
       <module name="ch3-ioc" options="-parameters" />
       <module name="ch3-ioc.main" options="-parameters" />
       <module name="ch3-ioc.test" options="-parameters" />

@@ -11,6 +11,7 @@ Java로 백엔드 개발의 기초 개념을 학습하고 예제를 정리하는
 | [Chapter 2](ch2-spring-boot/README.md) | 스프링 부트 (학습 중) | Gradle 멀티 모듈 구성, REST 컨트롤러, GET 요청 매핑, 경로 변수, 쿼리 파라미터와 DTO 바인딩, POST 요청 본문과 JSON 필드 매핑, PUT 중첩 DTO와 JSON 응답, DELETE 요청 처리, 텍스트·JSON·HTML 응답과 상태 코드, ObjectMapper 직렬화·역직렬화 |
 | [Chapter 3 · DI](ch3-di/README.md) | 의존성 주입 (완료) | 인터페이스 기반 설계, 순수 Java 생성자 주입, 인코더 구현체 교체 |
 | [Chapter 3 · IoC](ch3-ioc/README.md) | 스프링 IoC (완료) | 스프링 컨테이너, 컴포넌트 스캔, `@Configuration`과 `@Bean`, 빈 이름으로 조회 |
+| [Chapter 3 · AOP](ch3-aop/README.md) | 관점 지향 프로그래밍 (완료) | 포인트컷과 Advice, 요청·응답 로깅, `@Timer` 실행 시간 측정, `@Decode` 이메일 Base64 변환 |
 
 ## 개발 환경
 
@@ -20,6 +21,7 @@ Java로 백엔드 개발의 기초 개념을 학습하고 예제를 정리하는
 | Chapter 2 | JDK 25 (Gradle Toolchain) | Spring Boot 4.1.1, Gradle Wrapper 9.7.1 |
 | Chapter 3 · DI | JDK 26 | IntelliJ IDEA 또는 `javac`, `java` |
 | Chapter 3 · IoC | JDK 25 (Gradle Toolchain) | Spring Boot 4.1.1, Gradle Wrapper 9.7.1 |
+| Chapter 3 · AOP | JDK 25 (Gradle Toolchain) | Spring Boot 4.1.1, Gradle Wrapper 9.7.1 |
 
 각 챕터는 독립적으로 실행합니다. 챕터별 의존성과 자세한 실행 방법은 각 챕터의 README를 참고하세요.
 
@@ -65,12 +67,20 @@ Re-Backend/
 ├── ch3-di/
 │   ├── README.md             # 순수 Java DI 학습 내용과 실행 방법
 │   └── src/                  # 생성자 주입과 인코더 예제
-└── ch3-ioc/
-    ├── README.md             # 스프링 IoC 학습 내용과 실행 방법
-    ├── build.gradle          # 독립 Spring Boot 프로젝트 설정
+├── ch3-ioc/
+│   ├── README.md             # 스프링 IoC 학습 내용과 실행 방법
+│   ├── build.gradle          # 독립 Spring Boot 프로젝트 설정
+│   ├── settings.gradle
+│   ├── gradlew
+│   └── src/
+│       ├── main/             # 빈 등록, 조회와 인코더 예제
+│       └── test/             # 스프링 컨텍스트 로딩 테스트
+└── ch3-aop/
+    ├── README.md             # AOP 실무 활용 예제와 API 실행 방법
+    ├── build.gradle          # 웹 MVC와 AspectJ 스타터 설정
     ├── settings.gradle
     ├── gradlew
     └── src/
-        ├── main/             # 빈 등록, 조회와 인코더 예제
+        ├── main/             # 로깅, 시간 측정, 이메일 변환 Aspect
         └── test/             # 스프링 컨텍스트 로딩 테스트
 ```
