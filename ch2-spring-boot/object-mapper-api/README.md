@@ -1,6 +1,6 @@
 # ObjectMapper API 모듈
 
-[Chapter 2 모듈 목차](../README.md)
+[Chapter 2 모듈 목차](../README.md) · [Chapter 3 JSON 트리·중첩 객체 예제](../../ch3-object-mapper/README.md)
 
 ObjectMapper로 자바 객체를 JSON 문자열로 직렬화하고, JSON 문자열을 다시 객체로 역직렬화하는 방법을 학습합니다.
 현재 예제는 HTTP 컨트롤러 대신 `ObjectMapperApplicationTests.contextLoads()`에서 실행합니다.

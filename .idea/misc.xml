@@ -4,6 +4,7 @@
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/ch2-spring-boot" />
     <file type="web" url="file://$PROJECT_DIR$/ch3-aop" />
+    <file type="web" url="file://$PROJECT_DIR$/ch3-object-mapper" />
   </component>
   <component name="KubernetesApiProvider"><![CDATA[{}]]></component>
   <component name="ProjectRootManager" version="2" default="true" project-jdk-name="openjdk-26" project-jdk-type="JavaSDK">

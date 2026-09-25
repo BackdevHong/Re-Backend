@@ -1,0 +1,2 @@
+# Gradle Wrapper 실행에 필요한 JAR는 저장소에 포함합니다.
+!gradle/wrapper/gradle-wrapper.jar
