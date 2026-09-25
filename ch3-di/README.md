@@ -1,9 +1,9 @@
-# Chapter 3. IoC와 DI
+# Chapter 3. DI — 의존성 주입
 
-[전체 챕터 목차](../README.md)
+[전체 챕터 목차](../README.md) · [스프링 IoC 예제](../ch3-ioc/README.md)
 
-인코더 예제로 IoC(제어의 역전)와 DI(의존성 주입)의 기본 개념을 학습합니다.
-현재는 순수 Java에서 인터페이스와 생성자 주입을 사용해 객체를 연결하며, 스프링 컨테이너는 사용하지 않습니다.
+인코더 예제로 DI(의존성 주입)의 기본 개념을 학습한 챕터입니다.
+순수 Java에서 인터페이스와 생성자 주입으로 객체를 연결합니다. 이어지는 `ch3-ioc`에서는 같은 인코더를 스프링 컨테이너로 관리합니다.
 
 ## 개발 환경
 
@@ -14,9 +14,9 @@
 ## 챕터 구조
 
 ```text
-ch3-ioc-di/
+ch3-di/
 ├── README.md
-├── ch3-ioc-di.iml
+├── ch3-di.iml
 └── src/org/honginsung/di/
     ├── Main.java           # 구현체 생성과 주입, 예제 실행
     ├── IEncoder.java       # 문자열 인코딩 인터페이스
@@ -57,7 +57,7 @@ Base64 인코딩을 사용하려면 `Main`의 생성 부분에서 `new UrlEncode
 IoC(Inversion of Control)는 객체 생성이나 실행 흐름에 대한 제어를 외부로 옮기는 개념입니다.
 이 예제에서 어떤 인코더를 만들고 연결할지는 `Main`이 결정하고, `Encoder`는 전달받은 객체를 사용해 인코딩하는 역할만 맡습니다.
 
-DI는 IoC를 구현하는 방법 중 하나입니다. 현재 코드는 `Main`에서 직접 객체를 조립하는 생성자 주입 예제이며, 스프링의 빈 등록·자동 주입은 아직 포함하지 않습니다.
+DI는 IoC를 구현하는 방법 중 하나입니다. 현재 코드는 `Main`에서 직접 객체를 조립하는 생성자 주입 예제이며, 스프링의 빈 등록과 주입은 [IoC 예제](../ch3-ioc/README.md)에서 확인할 수 있습니다.
 
 ## 실행 방법
 
@@ -69,9 +69,9 @@ DI는 IoC를 구현하는 방법 중 하나입니다. 현재 코드는 `Main`에
 java -version
 javac -version
 
-mkdir -p out/ioc-di
-javac -encoding UTF-8 -d out/ioc-di ch3-ioc-di/src/org/honginsung/di/*.java
-java -cp out/ioc-di org.honginsung.di.Main
+mkdir -p out/di
+javac -encoding UTF-8 -d out/di ch3-di/src/org/honginsung/di/*.java
+java -cp out/di org.honginsung.di.Main
 ```
 
 현재 `Main`은 다음 문자열을 `UrlEncoder`에 전달합니다.
@@ -88,12 +88,12 @@ www.naver.com%2Fbooks%2Fit%3Fpage%3D10%26page%3D20%26name%3Dspring-boot
 
 `URLEncoder`는 폼 데이터 인코딩 방식으로 입력 문자열 전체를 변환하므로 `/`, `?`, `=`, `&`도 인코딩됩니다. 이 예제는 문자열 변환만 수행하며 웹 요청을 보내지 않습니다.
 
-컴파일 결과는 Git에서 제외되는 `out/ioc-di/`에 생성됩니다. 현재 별도 자동 테스트는 없으며 `Main` 실행 결과로 동작을 확인합니다.
+컴파일 결과는 Git에서 제외되는 `out/di/`에 생성됩니다. 현재 별도 자동 테스트는 없으며 `Main` 실행 결과로 동작을 확인합니다.
 
 ### IntelliJ IDEA
 
 1. 저장소 루트 프로젝트를 열고 프로젝트 SDK를 JDK 26으로 설정합니다.
-2. `ch3-ioc-di` 모듈의 `src`가 소스 루트로 인식되는지 확인합니다.
+2. `ch3-di` 모듈의 `src`가 소스 루트로 인식되는지 확인합니다.
 3. `org.honginsung.di.Main`의 `main()` 옆 실행 버튼을 누릅니다.
 
 현재 진입점은 `static void main()` 형태입니다. IDE와 터미널 모두 위 JDK 환경을 사용하세요.
