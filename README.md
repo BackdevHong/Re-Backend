@@ -13,6 +13,7 @@ Java로 백엔드 개발의 기초 개념을 학습하고 예제를 정리하는
 | [Chapter 3 · IoC](ch3-ioc/README.md) | 스프링 IoC (완료) | 스프링 컨테이너, 컴포넌트 스캔, `@Configuration`과 `@Bean`, 빈 이름으로 조회 |
 | [Chapter 3 · AOP](ch3-aop/README.md) | 관점 지향 프로그래밍 (완료) | 포인트컷과 Advice, 요청·응답 로깅, `@Timer` 실행 시간 측정, `@Decode` 이메일 Base64 변환 |
 | [Chapter 3 · ObjectMapper](ch3-object-mapper/README.md) | JSON 트리와 중첩 객체 (완료) | 중첩 객체 직렬화, `@JsonProperty`, `JsonNode` 조회, `TypeReference` 목록 변환, `ObjectNode` 수정 |
+| [Chapter 4](ch4-more-springboot/README.md) | 스프링 부트 심화 (학습 중) | Gradle 멀티 모듈 구성, Bean Validation, 중첩 객체 검증, BindingResult, 사용자 정의 `@YearMonth` |
 
 ## 개발 환경
 
@@ -24,6 +25,7 @@ Java로 백엔드 개발의 기초 개념을 학습하고 예제를 정리하는
 | Chapter 3 · IoC | JDK 25 (Gradle Toolchain) | Spring Boot 4.1.1, Gradle Wrapper 9.7.1 |
 | Chapter 3 · AOP | JDK 25 (Gradle Toolchain) | Spring Boot 4.1.1, Gradle Wrapper 9.7.1 |
 | Chapter 3 · ObjectMapper | JDK 26 (실행 확인 환경) | Jackson 2.15.0, Gradle Wrapper 9.3.0, IntelliJ IDEA |
+| Chapter 4 | JDK 25 (Gradle Toolchain) | Spring Boot 4.1.1, Gradle Wrapper 9.7.1 |
 
 각 챕터는 독립적으로 실행합니다. 챕터별 의존성과 자세한 실행 방법은 각 챕터의 README를 참고하세요.
 
@@ -85,11 +87,20 @@ Re-Backend/
 │   └── src/
 │       ├── main/             # 로깅, 시간 측정, 이메일 변환 Aspect
 │       └── test/             # 스프링 컨텍스트 로딩 테스트
-└── ch3-object-mapper/
-    ├── README.md             # 중첩 객체와 JSON 트리 학습 내용
-    ├── build.gradle          # Jackson 2 의존성 설정
-    ├── settings.gradle
+├── ch3-object-mapper/
+│   ├── README.md             # 중첩 객체와 JSON 트리 학습 내용
+│   ├── build.gradle          # Jackson 2 의존성 설정
+│   ├── settings.gradle
+│   ├── gradlew
+│   ├── sample.json           # JSON 구조 참고 파일
+│   └── src/main/java/        # Main과 User·Car DTO
+└── ch4-more-springboot/
+    ├── README.md             # 심화 학습 모듈 목차와 실행 방법
+    ├── build.gradle          # 모듈 공통 설정
+    ├── settings.gradle       # 하위 프로젝트 등록
     ├── gradlew
-    ├── sample.json           # JSON 구조 참고 파일
-    └── src/main/java/        # Main과 User·Car DTO
+    └── validation/
+        ├── README.md         # 검증 규칙과 API 호출 예제
+        ├── build.gradle      # 모듈 플러그인과 의존성
+        └── src/              # DTO 검증, 컨트롤러와 테스트
 ```

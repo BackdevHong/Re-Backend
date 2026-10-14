@@ -6,6 +6,11 @@
       <module name="aop.test" target="25" />
       <module name="ch2-spring-boot.main" target="25" />
       <module name="ch2-spring-boot.test" target="25" />
+      <module name="ch4-more-springboot.springboot-app" target="25" />
+      <module name="ch4-more-springboot.springboot-app.main" target="25" />
+      <module name="ch4-more-springboot.springboot-app.test" target="25" />
+      <module name="more-springboot.main" target="25" />
+      <module name="more-springboot.test" target="25" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -36,6 +41,14 @@
       <module name="ch3-ioc" options="-parameters" />
       <module name="ch3-ioc.main" options="-parameters" />
       <module name="ch3-ioc.test" options="-parameters" />
+      <module name="ch4-more-springboot.springboot-app" options="-parameters" />
+      <module name="ch4-more-springboot.springboot-app.main" options="-parameters" />
+      <module name="ch4-more-springboot.springboot-app.test" options="-parameters" />
+      <module name="ch4-more-springboot.validation" options="-parameters" />
+      <module name="ch4-more-springboot.validation.main" options="-parameters" />
+      <module name="ch4-more-springboot.validation.test" options="-parameters" />
+      <module name="more-springboot.main" options="-parameters" />
+      <module name="more-springboot.test" options="-parameters" />
     </option>
   </component>
 </project>
